@@ -66,20 +66,24 @@
     const doubleButton = document.getElementById('double');
     const splitButton = document.getElementById('split');
     
+    // Set default balance to 1000
     let playerBalance = 1000;
-    let playerBet = 20; // Set the minimum valid bet to 20
+    // Set the minimum valid bet to 20
+    let playerBet = 20; 
     let playerHand = [];
     let dealerHand = [];
     let deck = [];
     let roundStarted = false;
   
+    //Randomize the deck (used for when deck runs out)
     function shuffle(deck) {
       for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
       }
     }
-  
+    
+    //converts values of deck to numbers (K = 10, A = 1/11)
     function calculateScore(hand) {
       let score = 0;
       let numAces = 0;
@@ -106,6 +110,7 @@
       return score;
     }
   
+    //Display the player and dealers hands (takes second card of dealer is dependent on showHiddenCard)
     function displayHands(showHiddenCard = false) {
       playerHandElement.textContent = `Player's hand: ${playerHand.join(', ')} (Score: ${calculateScore(playerHand)})`;
       if (showHiddenCard) {
@@ -117,7 +122,9 @@
       playerBetInput.value = playerBet;
     }
   
+    //Draw a card from the deck
     function drawCard() {
+      //if deck is empty then shuffle it
       if (deck.length === 0) {
         deck = [
           '2S', '3S', '4S', '5S', '6S', '7S', '8S', '9S', '10S', 'JS', 'QS', 'KS', 'AS',
@@ -130,6 +137,7 @@
       return deck.pop();
     }
   
+    //start the game and confirm the bet
     function startGame() {
       if (!roundStarted) {
         const betValue = parseInt(playerBetInput.value);
@@ -140,7 +148,8 @@
           standButton.disabled = false;
           doubleButton.disabled = false;
           splitButton.disabled = false;
-  
+          
+          //assign player bet and get 2 cards for each player
           playerBet = betValue;
           playerBalance -= playerBet;
           playerHand = [drawCard(), drawCard()];
@@ -167,17 +176,20 @@
         playerHand.push(drawCard());
         displayHands();
         if (calculateScore(playerHand) > 21) {
-          endRound('Bust! You lose.', 0); // Deduct the bet when losing
+           // Deduct the bet when losing (0 is the multiplier because the bet was already removed)
+          endRound('Bust! You lose.', 0);
         }
       }
     }
   
     function playerStand() {
       if (roundStarted) {
-        displayHands(true); // Show the hidden card
+         // Show the hidden card
+        displayHands(true);
         while (calculateScore(dealerHand) < 17) {
           dealerHand.push(drawCard());
-          displayHands(true); // Update the dealer's hand in real-time
+          // Update the dealer's hand in real-time
+          displayHands(true); 
         }
         endRound();
       }
@@ -203,10 +215,11 @@
   
     function endRound(result = '', payoutMultiplier = 2) {
   if (roundStarted) {
-    displayHands(true); // Show the hidden card
+     // Show the hidden card
+    displayHands(true);
 
     if (payoutMultiplier > 0) {
-      playerBalance += playerBet * payoutMultiplier; // Corrected the balance calculation
+      playerBalance += playerBet * payoutMultiplier;
     }
 
     startButton.disabled = false;
@@ -224,8 +237,10 @@
     setTimeout(() => {
       roundResultElement.remove();
       roundStarted = false;
-      displayHands(); // Clear the hands
-      playerBalanceElement.textContent = playerBalance; // Update balance
+       // Clear the hands
+      displayHands();
+       // Update balance
+      playerBalanceElement.textContent = playerBalance;
     }, 2000);
   }
 }
