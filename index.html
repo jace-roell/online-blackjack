@@ -158,9 +158,11 @@
           // Check for blackjack
           if (calculateScore(playerHand) === 21) {
             if (calculateScore(dealerHand) === 21) {
-              endRound('Blackjack! It\'s a tie!', 0); // Tie, no payout
+              //Push
+              endRound('Blackjack! It\'s a tie!', 0); 
             } else {
-              endRound('Blackjack! You win 2x!', 2);
+              //Win 3:2
+              endRound('Blackjack! You win 1.5x!', 2.5);
             }
           } else {
             displayHands();
