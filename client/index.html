@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackjack</title>
+  <script type="module" src="script.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div id="login-content">
+    <h1>Blackjack</h1>
+    <div>
+      <label for="alias">Enter Your Alias:</label>
+      <input type="text" id="alias" />
+      <button id="connectButton">Connect</button>
+    </div>
+  </div>
+
+  <div id="game-content" style="display: none;">
+    <div class="container">
+      <div class="game-info">
+        <h1>Blackjack</h1>
+        <p>Player Balance: $<span id="player-balance">1000</span></p>
+        <p>Bet: $<input type="number" id="player-bet" min="20" step="5" value="20"></p>
+        <button id="start">Start</button>
+      </div>
+      <div class="buttons">
+        <button id="hit" disabled>Hit</button>
+        <button id="stand" disabled>Stand</button>
+        <button id="double" disabled>Double Down</button>
+      </div>
+      <div class="hand">
+        <p id="player-hand">Player's hand: </p>
+        <p id="dealer-hand">Dealer's hand: </p>
+      </div>
+      <p id="round-result"></p>
+      <!-- Add a container for the leaderboard -->
+      <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <ol id="leaderboard-list">
+          <!-- Leaderboard entries will be added here dynamically -->
+        </ol>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
