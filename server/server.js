@@ -1,3 +1,5 @@
+const { instrument } = require('@socket.io/admin-ui')
+
 const io = require('socket.io')(3000, {
     cors: {
       origin: ['https://nqppsn342q.us-east-2.awsapprunner.com:8080'],
@@ -69,3 +71,4 @@ const io = require('socket.io')(3000, {
     });
   });
   
+  instrument(io, {auth: false});

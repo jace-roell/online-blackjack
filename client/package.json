@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "snowpack": "^3.8.8",
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.2",
+    "telnet": "^0.0.1"
   },
   "scripts": {
     "start": "snowpack dev"
