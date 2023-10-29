@@ -1,6 +1,8 @@
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3000');
+//const socket = io('http://localhost:3000');
+const socket = io('https://jxdmrpment.us-east-2.awsapprunner.com:3000');
+
 
 localStorage.setItem('socketID', socket.id);
 
