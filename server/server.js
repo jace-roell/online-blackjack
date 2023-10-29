@@ -1,6 +1,7 @@
 const io = require('socket.io')(3000, {
     cors: {
-      origin: ['http://localhost:8081'],
+      origin: ['https://jxdmrpment.us-east-2.awsapprunner.com:8080'],
+      //origin: ['http://localhost:8081'],
     },
   });
   
