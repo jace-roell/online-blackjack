@@ -1,11 +1,12 @@
-const { instrument } = require('@socket.io/admin-ui')
+const { instrument } = require('@socket.io/admin-ui') 
 
 const io = require('socket.io')(3000, {
-    cors: {
-      origin: ['https://nqppsn342q.us-east-2.awsapprunner.com:8080'],
-      //origin: ['http://localhost:8081'],
+  cors: {
+    //origin: ['https://nqppsn342q.us-east-2.awsapprunner.com:8080'], ['https://admin.socket.io/']
+    origin: ["https://admin.socket.io", "http://localhost:8081"],
+    credentials: true,
     },
-  });
+    });
   
   // Initialize the leaderboard as an array of objects.
   const leaderboard = [];
