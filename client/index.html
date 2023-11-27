@@ -252,7 +252,8 @@ function startGame() {
       // Check for blackjack
       if (calculateScore(playerHand) === 21) {
         if (calculateScore(dealerHand) === 21) {
-          endRound('Blackjack! It\'s a tie!', 0); // Tie, no payout
+          // Tie, return player money
+          endRound('Blackjack! It\'s a tie!', 1); 
         } else {
           // Update the player's balance and leaderboard
           updatePlayerBalanceAndLeaderboard(playerBalance + playerBet * 2);
