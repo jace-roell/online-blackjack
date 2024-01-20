@@ -3,9 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet">
   <title>Blackjack</title>
-  <!--<script type="module" src="script.js"></script> -->
-  <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+  <link rel="stylesheet" type="text/css" href="./selfthinker-CSS-Playing-Cards-7e0e0f2/cards.css" media="screen" />
+
+  <style>
+body {
+  background-color: #006442;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+#login-content {
+  margin-top: 50px;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+label, input, button {
+  margin: 5px;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#game-content {
+  display: none;
+}
+
+.game-info, .buttons {
+  margin-top: 20px;
+}
+
+#player-bet {
+  width: 50px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+.leaderboard {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #005335;
+  padding: 15px;
+  border-radius: 10px;
+  width: 400px;
+}
+
+.leaderboard h2 {
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#leaderboard-list li {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px; 
+}
+
+#leaderboard-list li:nth-child(1) {
+  color: gold;
+}
+
+#leaderboard-list li:nth-child(2) {
+  color: silver;
+}
+
+#leaderboard-list li:nth-child(3) {
+  color: #cd7f32;
+}
+
+.playingCards {
+  display: inline-block;
+}
+
+.inline-card {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.hand-container {
+  display: inline-block;
+}
+
+
+  </style>
 </head>
 <body>
   <div id="login-content">
@@ -19,11 +148,18 @@
 
   <div id="game-content" style="display: none;">
     <div class="container">
+      <!-- Move leaderboard to the top right -->
+      <div class="leaderboard">
+        <h2>Leaderboard</h2>
+        <ol id="leaderboard-list">
+        </ol>
+      </div>
+
       <div class="game-info">
         <h1>Blackjack</h1>
         <p>Player Balance: $<span id="player-balance">1000</span></p>
         <p>Bet: $<input type="number" id="player-bet" min="20" step="5" value="20"></p>
-        <button id="start">Start</button>
+        <button id="start">Deal</button>
       </div>
       <div class="buttons">
         <button id="hit" disabled>Hit</button>
@@ -31,55 +167,20 @@
         <button id="double" disabled>Double Down</button>
       </div>
       <div class="hand">
-        <p id="player-hand">Player's hand: </p>
         <p id="dealer-hand">Dealer's hand: </p>
+        <p id="player-hand">Player's hand: </p>
       </div>
       <p id="round-result"></p>
-      <!-- Add a container for the leaderboard -->
-      <div class="leaderboard">
-        <h2>Leaderboard</h2>
-        <ol id="leaderboard-list">
-          <!-- Leaderboard entries will be added here dynamically -->
-        </ol>
-      </div>
     </div>
   </div>
 </body>
 </html>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        margin: 20px;
-      }
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-      .game-info {
-        margin-bottom: 20px;
-      }
-      .buttons {
-        display: flex;
-        justify-content: space-between;
-        max-width: 300px;
-        margin: 10px auto;
-      }
-      .hand {
-        font-size: 18px;
-        margin-bottom: 10px;
-      }
-</style>
+
 <script type="module" src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.js"></script>
 
 <script type="module">
-
-console.log("test");
-//const socket = io('http://localhost:3000');
-const socket = io('https://jxdmrpment.us-east-2.awsapprunner.com:3000');
+const socket = io('http://localhost:3000');
+//const socket = io('https://jxdmrpment.us-east-2.awsapprunner.com:3000');
 
 
 localStorage.setItem('socketID', socket.id);
@@ -92,7 +193,7 @@ const connectButton = document.getElementById('connectButton');
 connectButton.addEventListener('click', () => {
   const alias = aliasInput.value.trim();
 
-  if (/^[a-zA-Z0-9]{3,16}$/.test(alias)) {
+  if (/^[a-zA-Z0-9 ]{3,32}$/.test(alias)) {
     // Valid alias, hide login content and reveal game content
     loginContent.style.display = 'none';
     gameContent.style.display = 'block';
@@ -100,7 +201,7 @@ connectButton.addEventListener('click', () => {
     // Emit the alias to the server
     socket.emit('hello', alias);
   } else {
-    alert('Please enter a valid alias with 3 to 16 alphanumeric characters.');
+    alert('Please enter a valid alias with 3 to 32 alphanumeric characters.');
   }
 });
 
@@ -209,17 +310,70 @@ while (score > 21 && numAces > 0) {
 
 return score;
 }
+let dealerCardsVisible = false; // Add a variable to track visibility of dealer's cards
 
 function displayHands(showHiddenCard = false) {
-playerHandElement.textContent = `Player's hand: ${playerHand.join(', ')} (Score: ${calculateScore(playerHand)})`;
-if (showHiddenCard) {
-  dealerHandElement.textContent = `Dealer's hand: ${dealerHand.join(', ')} (Score: ${calculateScore(dealerHand)})`;
-} else {
-  dealerHandElement.textContent = `Dealer's hand: ${dealerHand[0]}, ?`;
+  // Display Player's hand
+  playerHandElement.innerHTML = `Player's hand: <div class="hand-container">${playerHand.map(card => getCardHTML(card)).join('')}</div>`;
+
+  // Display Dealer's hand
+  if (showHiddenCard || dealerCardsVisible) {
+    dealerHandElement.innerHTML = `Dealer's hand: <div class="hand-container">${dealerHand.map(card => getCardHTML(card)).join('')}</div>`;
+    dealerCardsVisible = true; // Set the flag to true so that cards remain visible
+  } else {
+    // Display both hidden and visible cards for the dealer
+    dealerHandElement.innerHTML = `Dealer's hand: 
+      <div class="hand-container">
+        ${getCardHTML(dealerHand[0], true)}
+        ${getCardHTML(dealerHand[1])}
+      </div>`;
+    dealerCardsVisible = false; // Set the flag to false so that cards are hidden
+  }
+
+  playerBalanceElement.textContent = playerBalance;
+  playerBetInput.value = playerBet;
 }
-playerBalanceElement.textContent = playerBalance;
-playerBetInput.value = playerBet;
+
+
+// Function to get HTML for a card based on its value (e.g., '6C')
+function getCardHTML(card, isHidden = false) {
+  const rank = card.slice(0, -1); // Extract rank (e.g., '6')
+  const suit = card.slice(-1);   // Extract suit (e.g., 'C')
+
+  const cardClass = isHidden ? 'card back' : `card rank-${rank.toLowerCase()} ${getSuitClass(suit)}`;
+
+  return `
+    <div class="playingCards inline-card">
+      <a class="${cardClass}" href="#">
+        ${isHidden ? '' : `<span class="rank">${rank}</span><span class="suit">${getSuitSymbol(suit)}</span>`}
+      </a>
+    </div>`;
 }
+
+// Helper function to get the class for the suit
+function getSuitClass(suit) {
+  // Map suit to class (hearts, diamonds, clubs, spades)
+  const suitMap = {
+    'H': 'hearts',
+    'D': 'diamonds',
+    'C': 'clubs',
+    'S': 'spades'
+  };
+  return `${suitMap[suit]} ${suit === 'D' ? 'diamonds' : ''}`.trim();
+}
+
+// Helper function to get the symbol for the suit
+function getSuitSymbol(suit) {
+  // Map suit to symbol (♥, ♦, ♣, ♠)
+  const suitSymbolMap = {
+    'H': '&hearts;',
+    'D': '&diams;',
+    'C': '&clubs;',
+    'S': '&spades;'
+  };
+  return suitSymbolMap[suit] || '';
+}
+
 
 function drawCard() {
 if (deck.length === 0) {
