@@ -1,141 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet">
-  <title>Blackjack</title>
   <link rel="stylesheet" type="text/css" href="./selfthinker-CSS-Playing-Cards-7e0e0f2/cards.css" media="screen" />
-
   <style>
-body {
-  background-color: #006442;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin: 0;
-}
+    body {
+      background-color: #006442;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+    }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-#login-content {
-  margin-top: 50px;
-}
+    #login-content {
+      margin-top: 50px;
+    }
 
-h1 {
-  margin-bottom: 20px;
-}
+    h1 {
+      margin-bottom: 20px;
+    }
 
-label, input, button {
-  margin: 5px;
-}
+    label, input, button {
+      margin: 5px;
+    }
 
-input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-button {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-button:hover {
-  background-color: #45a049;
-}
+    button:hover {
+      background-color: #45a049;
+    }
 
-#game-content {
-  display: none;
-}
+    #game-content {
+      display: none;
+    }
 
-.game-info, .buttons {
-  margin-top: 20px;
-}
+    .game-info, .buttons {
+      margin-top: 20px;
+    }
 
-#player-bet {
-  width: 50px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
+    #player-bet {
+      width: 50px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
 
-button:hover {
-  background-color: #555;
-}
+    button:hover {
+      background-color: #555;
+    }
 
-.leaderboard {
+    .leaderboard {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #005335;
+      padding: 15px;
+      border-radius: 10px;
+      width: 400px;
+    }
+
+    .leaderboard h2 {
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #leaderboard-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #leaderboard-list li {
+      color: black;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    #leaderboard-list li:nth-child(1) {
+      color: gold;
+    }
+
+    #leaderboard-list li:nth-child(2) {
+      color: silver;
+    }
+
+    #leaderboard-list li:nth-child(3) {
+      color: #cd7f32;
+    }
+
+    .playingCards {
+      display: inline-block;
+    }
+
+    .inline-card {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .hand-container {
+      display: inline-block;
+    }
+
+    #chat-container {
   position: absolute;
   top: 10px;
-  right: 10px;
-  background-color: #005335;
-  padding: 15px;
+  left: 10px;
+  background-color: #333;
+  padding: 10px;
   border-radius: 10px;
-  width: 400px;
+  width: 300px;
+  height: 300px;
+  color: white;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
-.leaderboard h2 {
-  color: black;
-  font-size: 24px;
-  font-weight: bold;
+#chat-messages {
+  max-height: 230px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  
+}
+#chat-messages p {
+  text-align: left;
+}
+  #chat-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 5px;
+  }
+
+  #chat-input {
+  flex: 1;
+  width: 0;
+  padding: 5px;
+  margin-right: 5px;
 }
 
-#leaderboard-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+  #send-button {
+    padding: 5px;
+  }
+</style>
 
-#leaderboard-list li {
-  color: black;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 8px; 
-}
-
-#leaderboard-list li:nth-child(1) {
-  color: gold;
-}
-
-#leaderboard-list li:nth-child(2) {
-  color: silver;
-}
-
-#leaderboard-list li:nth-child(3) {
-  color: #cd7f32;
-}
-
-.playingCards {
-  display: inline-block;
-}
-
-.inline-card {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.hand-container {
-  display: inline-block;
-}
-
-
-  </style>
 </head>
+
 <body>
   <div id="login-content">
     <h1>Blackjack</h1>
@@ -148,7 +190,6 @@ button:hover {
 
   <div id="game-content" style="display: none;">
     <div class="container">
-      <!-- Move leaderboard to the top right -->
       <div class="leaderboard">
         <h2>Leaderboard</h2>
         <ol id="leaderboard-list">
@@ -171,14 +212,28 @@ button:hover {
         <p id="player-hand">Player's hand: </p>
       </div>
       <p id="round-result"></p>
+
+      <div id="chat-container">
+        <div id="chat-messages"></div>
+        <div id="chat-input-container">
+          <input type="text" id="chat-input" placeholder="Type your message..." />
+          <button id="send-button">Send</button>
+        </div>
+      </div>
+
     </div>
   </div>
-</body>
-</html>
 
 <script type="module" src="https://cdn.jsdelivr.net/npm/socket.io-client/dist/socket.io.js"></script>
 
 <script type="module">
+
+let connectedUser = null;
+const MAX_MESSAGE_LENGTH = 64;
+function truncateMessage(message) {
+    return message.length > MAX_MESSAGE_LENGTH ? message.slice(0, MAX_MESSAGE_LENGTH) + '...' : message;
+  }
+
 const socket = io('http://localhost:3000');
 //const socket = io('https://jxdmrpment.us-east-2.awsapprunner.com:3000');
 
@@ -207,8 +262,8 @@ connectButton.addEventListener('click', () => {
 
 socket.on('connect', () => {
   console.log(`You connected with id: ${socket.id}`);
+  chatMessagesContainer.innerHTML = '';
 });
-
 
 const playerBalanceElement = document.getElementById('player-balance');
 const playerBetInput = document.getElementById('player-bet');
@@ -219,6 +274,38 @@ const startButton = document.getElementById('start');
 const hitButton = document.getElementById('hit');
 const standButton = document.getElementById('stand');
 const doubleButton = document.getElementById('double');
+
+const chatMessagesContainer = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+
+    chatInput.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      sendButton.click(); // Trigger the "Send" button click
+    }
+  });
+
+  sendButton.addEventListener('click', () => {
+    const message = chatInput.value.trim();
+    if (message !== '') {
+      // Emit the chat message to the server
+      socket.emit('chatMessage', message);
+      chatInput.value = '';
+
+      // Scroll to the bottom after sending a message
+      chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    }
+  });
+
+  socket.on('chatMessages', (messages) => {
+    // Update the chat messages container
+    chatMessagesContainer.innerHTML = messages
+      .map((msg) => `<p><strong>${msg.sender}:</strong> ${truncateMessage(msg.message)}</p>`)
+      .join('');
+
+    // Scroll to the bottom after receiving new messages
+    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+  });
 
 let playerBalance = 1000;
 // Set the minimum valid bet to 20
@@ -319,9 +406,13 @@ function displayHands(showHiddenCard = false) {
   // Display Dealer's hand
   if (showHiddenCard || dealerCardsVisible) {
     dealerHandElement.innerHTML = `Dealer's hand: <div class="hand-container">${dealerHand.map(card => getCardHTML(card)).join('')}</div>`;
-    dealerCardsVisible = true; // Set the flag to true so that cards remain visible
+    
+    // Update the flag only if showHiddenCard is true (player stands or busts)
+    if (showHiddenCard) {
+      dealerCardsVisible = true;
+    }
   } else {
-    // Display both hidden and visible cards for the dealer
+    // Display both hidden and visible cards for the dealer at the start of each hand
     dealerHandElement.innerHTML = `Dealer's hand: 
       <div class="hand-container">
         ${getCardHTML(dealerHand[0], true)}
@@ -333,6 +424,7 @@ function displayHands(showHiddenCard = false) {
   playerBalanceElement.textContent = playerBalance;
   playerBetInput.value = playerBet;
 }
+
 
 
 // Function to get HTML for a card based on its value (e.g., '6C')
@@ -403,6 +495,9 @@ function startGame() {
       playerHand = [drawCard(), drawCard()];
       dealerHand = [drawCard(), drawCard()];
       
+      // Reset dealerCardsVisible to false at the start of each new game
+      dealerCardsVisible = false;
+
       // Check for blackjack
       if (calculateScore(playerHand) === 21) {
         if (calculateScore(dealerHand) === 21) {
@@ -423,14 +518,23 @@ function startGame() {
 }
 
 function playerHit() {
-if (roundStarted) {
-  playerHand.push(drawCard());
-  displayHands();
-  if (calculateScore(playerHand) > 21) {
-     // Multiplier for payout is zero so no money is returned
-    endRound('Bust! You lose.', 0);
+  if (roundStarted) {
+    playerHand.push(drawCard());
+    displayHands();
+
+    const playerScore = calculateScore(playerHand);
+
+    // Auto-stand if the player has a total of 21
+    if (playerScore === 21) {
+      playerStand();
+    }
+
+    // Check for bust after hitting
+    if (playerScore > 21) {
+      // Multiplier for payout is zero so no money is returned
+      endRound('Bust! You lose.', 0);
+    }
   }
-}
 }
 
 function playerStand() {
